@@ -1,0 +1,33 @@
+[project]
+name = "b2b-conifg"
+version = "0.1.0"
+description = "Library to fetch configuration from Vault KV using pydantic"
+readme = "README.md"
+authors = [
+  { name = "rabbit", email = "rabbit_1399@icloud.com" }
+]
+license = { file = "LICENSE" }
+
+requires-python = ">=3.11"
+dependencies = [
+    "hvac>=2.3.0",
+    "loguru>=0.7.3",
+    "pydantic>=2.10.6",
+    "pydantic-settings>=2.7.1",
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.semantic_release]
+version_source = "tag"
+branch = "master"
+upload_to_pypi = true
+
+[dependency-groups]
+dev = [
+    "isort>=6.0.0",
+    "mypy>=1.14.1",
+    "ruff>=0.9.4",
+]
