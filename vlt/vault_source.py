@@ -1,6 +1,5 @@
 import typing
 from typing import Any
-from loguru import logger
 
 if typing.TYPE_CHECKING:
     from pydantic.fields import FieldInfo

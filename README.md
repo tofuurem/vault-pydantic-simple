@@ -12,4 +12,4 @@ This library provides functionality to fetch configuration from a HashiCorp Vaul
 Install using pip:
 
 ```bash
-pip install b2b-conifg
+pip install vault-pydantic-simple

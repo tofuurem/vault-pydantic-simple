@@ -1,8 +1,6 @@
 name: Release
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   pypi-publish:
@@ -10,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/vault-pydantic-conifg
+      url: https://pypi.org/p/vault-pydantic-simple
     permissions:
       id-token: write
     steps:
