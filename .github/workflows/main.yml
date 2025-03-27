@@ -1,0 +1,23 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pypi-publish:
+    name: Upload release to PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/vault-pydantic-conifg
+    permissions:
+      id-token: write
+    steps:
+      - name: Install packaging dependencies
+        run: pip install build
+      - uses: actions/checkout@v3
+      - name: Build package
+        run: python -m build
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

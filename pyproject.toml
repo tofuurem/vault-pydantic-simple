@@ -1,12 +1,19 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "b2b-conifg"
+name = "vault-pydantic-conifg"
 version = "0.1.0"
-description = "Library to fetch configuration from Vault KV using pydantic"
+description = "Library to fetch configuration from Vault KV and JSON using pydantic"
 readme = "README.md"
-authors = [
-  { name = "rabbit", email = "rabbit_1399@icloud.com" }
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"
 ]
-license = { file = "LICENSE" }
 
 requires-python = ">=3.11"
 dependencies = [
@@ -16,14 +23,12 @@ dependencies = [
     "pydantic-settings>=2.7.1",
 ]
 
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+[[project.authors]]
+name = "rabbit"
+email = "rabbit_1399@icloud.com"
 
-[tool.semantic_release]
-version_source = "tag"
-branch = "master"
-upload_to_pypi = true
+[project.license]
+text = "MIT"
 
 [dependency-groups]
 dev = [

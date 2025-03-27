@@ -1,7 +1,10 @@
+import typing
 from typing import Any
 from loguru import logger
 
-from pydantic.fields import FieldInfo
+if typing.TYPE_CHECKING:
+    from pydantic.fields import FieldInfo
+
 from pydantic_settings import BaseSettings, PydanticBaseSettingsSource
 
 import hvac
@@ -17,32 +20,24 @@ def _auth_by_userpass(cfg: VaultAccess) -> hvac.Client:
         return client
     else:
         client = hvac.Client(url=cfg.address)
-        resp = client.auth.userpass.login(
-            username=cfg.username,
-            password=cfg.password
-        )
-        client.token = resp['auth']['client_token']
+        resp = client.auth.userpass.login(username=cfg.username, password=cfg.password)
+        client.token = resp["auth"]["client_token"]
         return client
 
 
 class PydanticVaultSource(PydanticBaseSettingsSource):
-
     def __init__(self, settings_cls: type[BaseSettings]) -> None:
         super().__init__(settings_cls)
         self._result_config = {}
 
-    def get_field_value(self, field: FieldInfo, field_name: str) -> tuple[Any, str, bool]:
+    def get_field_value(
+        self, field: FieldInfo, field_name: str
+    ) -> tuple[Any, str, bool]:
         return self._result_config[field_name]
 
     def _get_secret_from_vault(self) -> None:
         cfg = VaultAccess()
-        try:
-            client = _auth_by_userpass(cfg)
-        except ValueError as ve:
-            raise ve
-        except Exception as ex:
-            logger.error(ex)
-            raise ValueError("Can't auth in")
+        client = _auth_by_userpass(cfg)
         secret = client.secrets.kv.v2.read_secret_version(path=cfg.app_name)
         self._result_config = secret["data"]["data"]
 

@@ -12,8 +12,10 @@ class VaultAccess(BaseSettings):
     password: str | None = Field(alias="VAULT_PASSWORD", default=None)
     app_name: str = Field(alias="VAULT_APP_NAME")
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def validate_creds(self) -> Self:
         if self.token is None and (self.username is None or self.password is None):
-            raise ValidationError("Must be some fields for auth token or username + password")
+            raise ValidationError(
+                "Must be some fields for auth token or username + password"
+            )
         return self

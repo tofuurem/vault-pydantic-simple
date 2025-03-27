@@ -1,12 +1,16 @@
 from typing import Type
 
-from pydantic_settings import BaseSettings, SettingsConfigDict, PydanticBaseSettingsSource
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict,
+    PydanticBaseSettingsSource,
+)
 
 from vlt.json_source import PydanticJSONSource
 from vlt.vault_source import PydanticVaultSource
 
 
-class VaultConfig(BaseSettings):
+class VaultJsonConfig(BaseSettings):
     model_config = SettingsConfigDict(populate_by_name=True)
 
     @classmethod
@@ -24,8 +28,8 @@ class VaultConfig(BaseSettings):
             PydanticJSONSource(settings_cls),
             init_settings,
             dotenv_settings,
-            file_secret_settings
+            file_secret_settings,
         )
 
 
-__all__ = ["VaultConfig"]
+__all__ = ["VaultJsonConfig"]
