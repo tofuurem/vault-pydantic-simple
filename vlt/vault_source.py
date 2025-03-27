@@ -1,8 +1,7 @@
-import typing
 from typing import Any
 
-if typing.TYPE_CHECKING:
-    from pydantic.fields import FieldInfo
+from loguru import logger
+from pydantic.fields import FieldInfo
 
 from pydantic_settings import BaseSettings, PydanticBaseSettingsSource
 
@@ -41,5 +40,8 @@ class PydanticVaultSource(PydanticBaseSettingsSource):
         self._result_config = secret["data"]["data"]
 
     def __call__(self) -> dict[str, Any]:
-        self._get_secret_from_vault()
+        try:
+            self._get_secret_from_vault()
+        except Exception as ex:
+            logger.error(ex)
         return self._result_config

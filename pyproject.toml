@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vault-pydantic-simple"
-version = "0.1.0"
+version = "0.4.0"
 description = "Library to fetch configuration from Vault KV and JSON using pydantic"
 readme = "README.md"
 classifiers = [

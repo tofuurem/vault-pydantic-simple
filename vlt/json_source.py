@@ -1,13 +1,12 @@
 import json
 import os
-import typing
 from pathlib import Path
 from typing import Any
 
+from loguru import logger
 from pydantic_settings import PydanticBaseSettingsSource, BaseSettings
 
-if typing.TYPE_CHECKING:
-    from pydantic import FieldInfo
+from pydantic.fields import FieldInfo
 
 from vlt.constants import PYDANTIC_JSON_PATH
 
@@ -24,12 +23,12 @@ class PydanticJSONSource(PydanticBaseSettingsSource):
 
     def _get_secret_from_vault(self) -> None:
         path_env = os.getenv(PYDANTIC_JSON_PATH, default=None)
-        if path_env is None:
-            return
-        file = Path(path_env)
-        with open(file, "r") as f:
+        with Path(path_env or os.path.dirname(__file__), "config.json").open("r") as f:
             self._result_config = json.load(f)
 
     def __call__(self) -> dict[str, Any]:
-        self._get_secret_from_vault()
+        try:
+            self._get_secret_from_vault()
+        except Exception as ex:
+            logger.warning(f"Load config without config.json - {ex}")
         return self._result_config
